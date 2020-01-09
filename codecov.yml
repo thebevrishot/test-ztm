@@ -1,0 +1,3 @@
+ignore:
+- src/*.Tests
+- src/Ztm.Data.Entity.Postgres/Migrations

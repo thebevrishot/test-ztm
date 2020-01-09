@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.Development.json" CopyToPublishDirectory="Never" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="NBitcoin" Version="4.2.16" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Ztm.Zcoin.Synchronization\Ztm.Zcoin.Synchronization.csproj" />
+    <ProjectReference Include="..\Ztm.Zcoin.Rpc\Ztm.Zcoin.Rpc.csproj" />
+    <ProjectReference Include="..\Ztm.Configuration\Ztm.Configuration.csproj" />
+    <ProjectReference Include="..\Ztm.Data.Entity\Ztm.Data.Entity.csproj" />
+    <ProjectReference Include="..\Ztm.Data.Entity.Postgres\Ztm.Data.Entity.Postgres.csproj" />
+    <ProjectReference Include="..\Ztm.Hosting.AspNetCore\Ztm.Hosting.AspNetCore.csproj" />
+    <ProjectReference Include="..\Ztm.Zcoin.NBitcoin\Ztm.Zcoin.NBitcoin.csproj" />
+    <ProjectReference Include="..\Ztm.Zcoin.Watching\Ztm.Zcoin.Watching.csproj" />
+  </ItemGroup>
+
+</Project>
