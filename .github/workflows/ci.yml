@@ -28,7 +28,7 @@ jobs:
       run: dotnet.exe build src\Ztm.EndToEndTests
     - name: Run Postgres
       shell: cmd
-      run: postgres.exe # TODO
+      run: pg_ctl register
     - name: Unit Test
       shell: cmd
       run: dotnet.exe test --no-build -r test-results --collect "Code Coverage" src\Ztm.sln
