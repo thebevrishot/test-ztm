@@ -63,7 +63,7 @@ jobs:
     #   env:
     #     CODECOV_TOKEN: fd50d6ec-a3dd-4815-9ed1-b9b92ce6c063
     #   shell: cmd
-      run: codecov.exe --required -f coverage-reports\*.coveragexml
+    #   run: codecov.exe --required -f coverage-reports\*.coveragexml
     - name: Create Release
       shell: cmd
       run: dotnet.exe publish -o "%GITHUB_WORKSPACE%\release" -r linux-musl-x64 -c Release src\Ztm.WebApi
