@@ -2,10 +2,10 @@ name: Continuous Integration
 on: [push, pull_request]
 jobs:
   build:
-    env:
-      ZTM_MAIN_DATABASE: Host=ec2-174-129-41-127.compute-1.amazonaws.com;Database=deu267arljal66;Username=ubaxhzhbpepsbz;Port=5432;Password=52e5a29bd6c78cbef9382f70894f69b5d96de1d1d06961c941837dfe25fde5e8;SslMode=Require;TrustServerCertificate=True
     name: Build
     runs-on: windows-latest
+    env:
+      ZTM_MAIN_DATABASE: Host=127.0.0.1;Database=postgres;Username=postgres;Password=postgres
     steps:
     - name: Checkout
       uses: actions/checkout@v1
@@ -25,10 +25,9 @@ jobs:
     - name: Build E2E Runner
       shell: cmd
       run: dotnet.exe build src\Ztm.EndToEndTests
-    - name: Cleanup database
+    - name: Install database
       shell: cmd
-      working-directory: ./src/Ztm.Data.Entity.Postgres
-      run: dotnet.exe ef database update 0
+      run: choco.exe install postgresql --version=10.6.0.20190131 --params '/Password:postgres' --params-global
     - name: Migrate database up
       shell: cmd
       working-directory: ./src/Ztm.Data.Entity.Postgres
