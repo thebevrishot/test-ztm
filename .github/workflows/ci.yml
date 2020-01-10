@@ -2,6 +2,8 @@ name: Continuous Integration
 on: [push, pull_request]
 jobs:
   build:
+    env:
+      ZTM_MAIN_DATABASE: Host=ec2-174-129-41-127.compute-1.amazonaws.com;Database=deu267arljal66;Username=ubaxhzhbpepsbz;Port=5432;Password=52e5a29bd6c78cbef9382f70894f69b5d96de1d1d06961c941837dfe25fde5e8;SslMode=Require;TrustServerCertificate=True
     name: Build
     runs-on: windows-latest
     steps:
@@ -17,21 +19,24 @@ jobs:
     - name: Install Coverage Uploader
       shell: cmd
       run: dotnet.exe tool install --global Codecov.Tool
-    - name: Install Postgres
-      shell: cmd
-      run: choco.exe install postgresql10
     - name: Build
       shell: cmd
       run: dotnet.exe build src\Ztm.sln
     - name: Build E2E Runner
       shell: cmd
       run: dotnet.exe build src\Ztm.EndToEndTests
-    - name: Run Postgres
+    - name: Cleanup database
       shell: cmd
-      run: pg_ctl register
+      run: dotnet.exe ef database update 0
+    - name: Migrate database up
+      shell: cmd
+      run: dotnet.exe ef database update
     - name: Unit Test
       shell: cmd
       run: dotnet.exe test --no-build -r test-results --collect "Code Coverage" src\Ztm.sln
+    - name: Migrate database down
+      shell: cmd
+      run: dotnet.exe ef database update 0
     - name: Transform Test Results
       run: |
         $tool = "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Team Tools\Dynamic Code Coverage Tools\CodeCoverage.exe"
@@ -54,10 +59,10 @@ jobs:
 
             Write-Host -Object "Generated $output"
         }
-    - name: Upload Coverage Reports
-      env:
-        CODECOV_TOKEN: fd50d6ec-a3dd-4815-9ed1-b9b92ce6c063
-      shell: cmd
+    # - name: Upload Coverage Reports
+    #   env:
+    #     CODECOV_TOKEN: fd50d6ec-a3dd-4815-9ed1-b9b92ce6c063
+    #   shell: cmd
       run: codecov.exe --required -f coverage-reports\*.coveragexml
     - name: Create Release
       shell: cmd
