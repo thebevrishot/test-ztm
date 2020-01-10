@@ -27,15 +27,18 @@ jobs:
       run: dotnet.exe build src\Ztm.EndToEndTests
     - name: Cleanup database
       shell: cmd
+      working-directory: ./src/Ztm.Data.Entity.Postgres
       run: dotnet.exe ef database update 0
     - name: Migrate database up
       shell: cmd
+      working-directory: ./src/Ztm.Data.Entity.Postgres
       run: dotnet.exe ef database update
     - name: Unit Test
       shell: cmd
       run: dotnet.exe test --no-build -r test-results --collect "Code Coverage" src\Ztm.sln
     - name: Migrate database down
       shell: cmd
+      working-directory: ./src/Ztm.Data.Entity.Postgres
       run: dotnet.exe ef database update 0
     - name: Transform Test Results
       run: |
